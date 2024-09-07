@@ -1,0 +1,5 @@
+{
+  "name": "I like my NFT!",
+  "description": "Congratulations! If everything is all right you should see this text on your wallet!",
+  "image": "https://tomato-worthy-gorilla-972.mypinata.cloud/ipfs/QmaMXcpEB9WNxCcXN4GvCgP53rw1ZHKVDeSM5iuDk3j7jG"
+}

@@ -5,6 +5,7 @@ import Image from "next/image";
 import type { NextPage } from "next";
 // import { useAccount } from "wagmi";
 import { AddressInput } from "~~/components/scaffold-eth/Input";
+import { useScaffoldWriteContract } from "~~/hooks/scaffold-eth";
 
 // Custom function to validate Ethereum address
 const isValidEthereumAddress = (address: string): boolean => {
@@ -15,6 +16,7 @@ const Home: NextPage = () => {
   // const { address: connectedAddress } = useAccount();
   const [inputAddress, setInputAddress] = useState("0x0016d51c0181e4B5c6A4C427F77a3CbB78C8564a");
   const [isValidAddress, setIsValidAddress] = useState(true);
+  const { writeContractAsync: airdropNftAsync } = useScaffoldWriteContract("MyNftErc1155");
 
   // Validate address whenever the input changes
   useEffect(() => {
@@ -42,9 +44,18 @@ const Home: NextPage = () => {
               width={150}
               height={150}
               className={`cursor-pointer ${!isValidAddress ? "opacity-50" : ""}`}
-              onClick={() => {
+              onClick={async () => {
                 if (isValidAddress) {
-                  alert(`NFT sent to ${inputAddress}`);
+                  try {
+                    await airdropNftAsync({
+                      functionName: "airdrop",
+                      args: [[inputAddress]],
+                    });
+                    alert(`NFT sent to ${inputAddress}`);
+                  } catch (e) {
+                    console.error("Error sending NFT:", e);
+                    alert("Transaction failed.");
+                  }
                 }
               }}
             />
